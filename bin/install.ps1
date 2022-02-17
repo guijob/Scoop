@@ -28,20 +28,20 @@ if ([System.Enum]::GetNames([System.Net.SecurityProtocolType]) -notcontains 'Tls
 }
 
 # get core functions
-$core_url = 'https://raw.githubusercontent.com/ScoopInstaller/Scoop/master/lib/core.ps1'
+$core_url = 'https://raw.githubusercontent.com/guijob/Scoop/master/lib/core.ps1'
 Write-Output 'Initializing...'
 Invoke-Expression (new-object net.webclient).downloadstring($core_url)
 
 # prep
 if (installed 'scoop') {
-    write-host "Scoop is already installed. Run 'scoop update' to get the latest version." -f red
+    write-host "Scoop is already installed." -f red
     # don't abort if invoked with iex that would close the PS session
     if ($myinvocation.mycommand.commandtype -eq 'Script') { return } else { exit 1 }
 }
 $dir = ensure (versiondir 'scoop' 'current')
 
 # download scoop zip
-$zipurl = 'https://github.com/ScoopInstaller/Scoop/archive/master.zip'
+$zipurl = 'https://github.com/guijob/Scoop/archive/master.zip'
 $zipfile = "$dir\scoop.zip"
 Write-Output 'Downloading scoop...'
 dl $zipurl $zipfile
@@ -55,11 +55,11 @@ Remove-Item "$dir\_tmp", $zipfile -Recurse -Force
 Write-Output 'Creating shim...'
 shim "$dir\bin\scoop.ps1" $false
 
-# download main bucket
-$dir = "$scoopdir\buckets\main"
-$zipurl = 'https://github.com/ScoopInstaller/Main/archive/master.zip'
+# download parkaware bucket
+$dir = "$scoopdir\buckets\parkaware"
+$zipurl = 'https://github.com/guijob/Main/archive/master.zip'
 $zipfile = "$dir\main-bucket.zip"
-Write-Output 'Downloading main bucket...'
+Write-Output 'Downloading parkaware bucket...'
 New-Item $dir -Type Directory -Force | Out-Null
 dl $zipurl $zipfile
 
